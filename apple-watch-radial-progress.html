@@ -16,7 +16,7 @@
  .rbc-center-text {
    font-family: 'Roboto', 'Myriad Set Pro', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial;
    fill: rgb(0, 0, 0);
-   font-size: 45px;
+   font-size: 2.5vw;
  }
     </style>
     <div class="progress"></div>
@@ -37,9 +37,9 @@
             }
             static get properties() {
                 return {
-                    prop1: {
-                        type: String,
-                        value: 'apple-watch-radial-progress'
+                    progressValue: {
+                        type: Number,
+                        observer: "_progressValueChange"
                     },
                     diameter: {
                         type: Number,
@@ -63,6 +63,10 @@
                         type: String,
                         value: "%",
                         notify: true
+                    },
+                    progress: {
+                        type: Object,
+                        notify: true
                     }
                 };
             }
@@ -84,19 +88,31 @@
                             stops: this.gradiantArray
                         }
                     }],
-                    center: function(p) {
-                        return p + ' %'
-                    }
+                    center: (p => this._centerText(p))
                 });
 
-
-
-                this.progress.update(this.getRandom(30, 70));
+                // console.log(this.progressValue)
+                this.progress.update(this.progressValue);
             }
 
-            getRandom(min, max) {
+            _centerText(p) {
+                return p + this.centerTextSuffix;
+            }
+
+            _getRandom(min, max) {
                 return Math.random() * (max - min) + min;
             }
+
+            _progressValueChange(p) {
+                if (this.progress !== undefined && p !== undefined) {
+                    this.progress.update(p);
+                }
+            }
+
+            updateValue(val) {
+                this.progress.update(parseFloat(val))
+            }
+
         }
 
         window.customElements.define(AppleWatchRadialProgress.is, AppleWatchRadialProgress);
