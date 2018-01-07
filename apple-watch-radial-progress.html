@@ -1,0 +1,104 @@
+<!-- <link rel="import" href="../polymer/polymer-element.html"> -->
+<link rel="import" href="./bower_components/polymer/polymer-element.html">
+<link rel="import" href="./import-libs.html">
+<dom-module id="apple-watch-radial-progress">
+    <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .rbc-label-start {
+   font-family: fontawesome;
+   font-weight: bold;
+   font-size: 30px;
+ }
+
+ .rbc-center-text {
+   font-family: 'Roboto', 'Myriad Set Pro', 'Lucida Grande', 'Helvetica Neue', Helvetica, Arial;
+   fill: rgb(0, 0, 0);
+   font-size: 45px;
+ }
+    </style>
+    <div class="progress"></div>
+  </template>
+
+    <script>
+        /**
+         * `apple-watch-radial-progress`
+         * Apple Watch style Radial Progress Element
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class AppleWatchRadialProgress extends Polymer.Element {
+            static get is() {
+                return 'apple-watch-radial-progress';
+            }
+            static get properties() {
+                return {
+                    prop1: {
+                        type: String,
+                        value: 'apple-watch-radial-progress'
+                    },
+                    diameter: {
+                        type: Number,
+                        value: 200,
+                        notify: true
+                    },
+                    gradiantArray: {
+                        type: Array,
+                        value: [{
+                            offset: '0%',
+                            'stop-color': '#ffff00',
+                            'stop-opacity': 1
+                        }, {
+                            offset: '100%',
+                            'stop-color': '#ff0000',
+                            'stop-opacity': 1
+                        }],
+                        notify: true
+                    },
+                    centerTextSuffix: {
+                        type: String,
+                        value: "%",
+                        notify: true
+                    }
+                };
+            }
+            ready() {
+                super.ready();
+                this.progress = new RadialProgressChart(this.shadowRoot.querySelector('.progress'), {
+                    diameter: this.diameter,
+                    series: [{
+                        labelStart: '>',
+                        value: 0,
+                        color: {
+                            linearGradient: {
+                                x1: '0%',
+                                y1: '100%',
+                                x2: '50%',
+                                y2: '0%',
+                                spreadMethod: 'pad'
+                            },
+                            stops: this.gradiantArray
+                        }
+                    }],
+                    center: function(p) {
+                        return p + ' %'
+                    }
+                });
+
+
+
+                this.progress.update(this.getRandom(30, 70));
+            }
+
+            getRandom(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+        }
+
+        window.customElements.define(AppleWatchRadialProgress.is, AppleWatchRadialProgress);
+    </script>
+</dom-module>

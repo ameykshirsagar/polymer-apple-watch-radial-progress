@@ -1,0 +1,18 @@
+{
+    "name": "apple-watch-radial-progress",
+    "description": "Apple Watch style Radial Progress Element",
+    "main": "apple-watch-radial-progress.html",
+    "dependencies": {
+        "polymer": "Polymer/polymer#^2.0.0",
+        "radial-progress-chart": "pablomolnar/radial-progress-chart",
+        "d3": "3.5.x"
+    },
+    "devDependencies": {
+        "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+        "web-component-tester": "Polymer/web-component-tester#^6.0.0",
+        "webcomponentsjs": "webcomponents/webcomponentsjs#^1.0.0"
+    },
+    "resolutions": {
+        "polymer": "^2.0.0"
+    }
+}
